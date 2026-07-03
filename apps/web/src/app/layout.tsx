@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Dinosaurios Academy",
-  description: "Panel operativo interno para Dinosaurios Academy"
-};
+import { getConfiguredLocale, getMessages } from "@/lib/i18n/messages";
+
+const locale = getConfiguredLocale();
+const messages = getMessages(locale);
+
+export const metadata: Metadata = messages.metadata;
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang={locale}>
       <body>{children}</body>
     </html>
   );
