@@ -1,0 +1,15 @@
+{
+  "name": "new-dinosaurios-academy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install": "node scripts/install-lifecycle.mjs",
+    "lint": "pnpm -r lint",
+    "test": "pnpm run test:scaffold && pnpm -r test",
+    "test:scaffold": "node --test tests/*.test.mjs",
+    "test:backend": "pnpm --filter backend test",
+    "typecheck": "pnpm -r typecheck",
+    "dev": "pnpm --parallel -r dev"
+  },
+  "packageManager": "pnpm@10.15.0"
+}
