@@ -6,10 +6,10 @@ test("home screen follows the product UI baseline", async () => {
   const [page, messages, css] = await Promise.all([
     readFile("src/app/page.tsx", "utf8"),
     readFile("src/lib/i18n/messages.ts", "utf8"),
-    readFile("src/app/globals.css", "utf8")
+    readFile("src/app/globals.css", "utf8"),
   ]);
 
-  assert.match(page, /homeCopy\.defaults/);
+  assert.match(page, /messages\.shell\.defaults/);
   assert.match(messages, /Español/);
   assert.match(messages, /America\/Lima/);
   assert.match(messages, /S\//);
