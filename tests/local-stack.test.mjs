@@ -23,9 +23,9 @@ test("local infrastructure is configured through documented environment variable
     assert.match(envExample, new RegExp(`^${variable}=`, "m"));
   }
 
-  assert.match(compose, /POSTGRES_DB:\s*\$\{POSTGRES_DB\}/);
-  assert.match(compose, /POSTGRES_USER:\s*\$\{POSTGRES_USER\}/);
-  assert.match(compose, /POSTGRES_PASSWORD:\s*\$\{POSTGRES_PASSWORD\}/);
+  assert.match(compose, /POSTGRES_DB:\s*\$\{POSTGRES_DB:-dinosaurios\}/);
+  assert.match(compose, /POSTGRES_USER:\s*\$\{POSTGRES_USER:-dinosaurios\}/);
+  assert.match(compose, /POSTGRES_PASSWORD:\s*\$\{POSTGRES_PASSWORD:-dinosaurios\}/);
   assert.match(compose, /healthcheck:/);
   assert.match(compose, /redis-cli/);
   assert.match(compose, /pg_isready/);
