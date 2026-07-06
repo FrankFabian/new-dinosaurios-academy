@@ -17,7 +17,7 @@ function splitSetCookieHeader(header: string | null) {
 
 function getCookieValue(setCookieHeaders: string[], name: string) {
   const cookie = setCookieHeaders.find((value) => value.trim().startsWith(`${name}=`));
-  const pair = cookie?.split(";", 1)[0];
+  const pair = cookie?.trim().split(";", 1)[0];
 
   return pair?.slice(name.length + 1);
 }
