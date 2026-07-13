@@ -123,6 +123,8 @@ Dark mode remains the primary visual identity. The physical scene is a staff mem
 
 The approved direction is **Option A: Mesa Operativa Afinada**. It keeps the internal product dark, operational, and table-forward, with a centered global search, a venue/profile scope selector, a grouped sidebar aligned to the product backlog, and a mobile attendance experience that feels first-class instead of squeezed from desktop. The authenticated portal should use the same deep black-green charcoal atmosphere as the approved login preview, then reserve green for subtle interaction feedback: hover, focus, active navigation, selected filters, progress, and primary actions. The style uses precise hairline borders, compact shadcn-compatible controls, and softened geometry inspired by Refero without copying its light monochrome showcase style.
 
+**Utility Before Surface Rule:** Every visible element must earn its place by helping the user decide, act, recover, understand scope, or verify a meaningful state. Do not add copy, cards, badges, panels, icons, dropdown affordances, helper text, or metrics only to make a screen feel fuller. Redundant information is acceptable only when it prevents a costly mistake, supports accessibility, preserves context after navigation collapses, or confirms the consequence of a sensitive action.
+
 ## 2. Refero Adaptation
 
 The referenced Refero style is useful as a discipline reference, not as a palette to copy. Its strongest lessons are component restraint, quiet hierarchy, compact spacing, clear surface layering, hairline borders, and a shadcn-like vocabulary where the UI components themselves carry the visual identity.
@@ -308,7 +310,8 @@ Every interactive component must define default, hover, focus, active, disabled,
 
 - **Desktop Shell:** Persistent left sidebar plus topbar.
 - **Shell Feel:** Sidebar and topbar use `shell`, not a decorative accent. The active item combines icon, label, subtle green-tinted background, and primary color.
-- **Venue/Profile Scope:** Place a venue/profile selector near the brand in the sidebar, such as `Sede Surco`, `Sede San Borja`, or `Todas las sedes`. This selector scopes operational views when the user's permissions allow multiple venues. Single-venue users see the current venue as read-only context.
+- **Venue/Profile Scope:** Show the current venue/profile scope once in the most stable shell location for the screen, such as the topbar or sidebar. Use labels such as `Sede Surco`, `Sede San Borja`, or `Todas las sedes`. This selector scopes operational views when the user's permissions allow multiple venues. Single-venue users see the current venue as read-only context without dropdown affordances.
+- **Persistent Context Rule:** Do not repeat persistent context. Venue, user, role, language, currency, timezone, and session state appear only when they help the user take an immediate action or understand the current scope. Avoid helper copy such as `Perfil de sede activo`, session badges such as `Sesion activa`, and duplicated account summaries inside menus whose trigger already shows the same user and role.
 - **Centered Search:** Keep the topbar global search centered between the module title/menu control and the notification/user controls. Do not push it into the sidebar or hide it behind an icon on desktop.
 - **Sidebar Domains:** Use grouped Spanish navigation aligned to the issue backlog:
   - **Operaciones:** Inicio, Estudiantes, Apoderados, Grupos, Matriculas.
@@ -328,7 +331,7 @@ Every interactive component must define default, hover, focus, active, disabled,
 
 The product should treat venues as a first-class operating scope. Issues covering venues, courts, disciplines, categories, class groups, attendance, billing, reports, and events all depend on venue context.
 
-- **Venue Profile Selector:** The sidebar selector defines the current operational scope when a user has access to more than one venue. Use labels such as `Sede Surco`, `Sede Villa`, or `Todas las sedes`.
+- **Venue Profile Selector:** The venue selector defines the current operational scope when a user has access to more than one venue. Use labels such as `Sede Surco`, `Sede Villa`, or `Todas las sedes`. If the user cannot switch venues, present the current venue as read-only context and do not show chevrons, dropdown styling, or repeated venue cards.
 - **Scoped Filters:** Tables and reports that can span venues include a `Sede` filter. If the user is already scoped to a single venue, the filter can show the scoped value or disappear when redundant.
 - **Context Chips:** Detail and list pages can show compact chips for venue, court, discipline, category, and group, such as `Sede Surco`, `Cancha 2`, `U12 - Verde`.
 - **Permission Awareness:** Coaches see only assigned class groups and sessions. Staff/admin users can switch venue scope if authorized. Guardians and adult students should not see internal venue-scope controls unless needed to understand a class or event location.
