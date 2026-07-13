@@ -15,7 +15,8 @@ test("authenticated app shell uses localized role-aware navigation", async () =>
   assert.match(messages, /export const defaultLocale = "es"/);
   assert.match(messages, /en:/);
   assert.match(messages, /signOut:/);
-  assert.match(messages, /authenticatedAs:/);
+  assert.match(messages, /quickActions:/);
+  assert.match(messages, /priorityWork:/);
   assert.match(layout, /getConfiguredLocale/);
   assert.doesNotMatch(page, /const currentUser =/);
   assert.match(page, /await getCurrentUser\(\)/);
@@ -23,7 +24,14 @@ test("authenticated app shell uses localized role-aware navigation", async () =>
   assert.match(page, /action=\{loginWithPassword\}/);
   assert.match(page, /action=\{logoutCurrentUser\}/);
   assert.match(page, /messages\.shell/);
-  assert.match(page, /<details className="border-b border-border bg-shell lg:hidden">/);
+  assert.match(page, /<aside/);
+  assert.match(page, /<header/);
+  assert.match(page, /<details/);
+  assert.match(page, /messages\.shell\.mobileMenuButton/);
+  assert.match(page, /messages\.shell\.mobileNavigation/);
+  assert.match(page, /messages\.shell\.profileMenu/);
+  assert.match(page, /messages\.shell\.searchShortcut/);
+  assert.match(page, /messages\.shell\.notifications/);
   assert.match(currentUser, /cookies\(\)/);
   assert.match(currentUser, /\/api\/auth\/me\//);
   assert.match(currentUser, /Cookie/);
