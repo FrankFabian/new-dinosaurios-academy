@@ -78,8 +78,11 @@ spacing:
   "4xl": "48px"
 components:
   button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.background}"
+    backgroundColor: "oklch(45% 0.12 158)"
+    hoverBackgroundColor: "oklch(52% 0.135 158)"
+    borderColor: "oklch(64% 0.12 158)"
+    hoverBorderColor: "oklch(75% 0.14 158)"
+    textColor: "{colors.foreground}"
     rounded: "{rounded.md}"
     padding: "8px 12px"
   button-secondary:
@@ -265,12 +268,16 @@ Depth is mostly tonal, not shadow-driven. Default content separates through surf
 
 All components must be implementable with shadcn/ui primitives and Tailwind-compatible tokens. Use standard button, input, select, checkbox, switch, dialog, dropdown, popover, tabs, sheet, table, tooltip, toast, and badge behavior unless a real workflow requires a deeper component.
 
+**shadcn Component Standard:** Authenticated product UI uses shadcn/ui as the default component vocabulary. If a shadcn primitive exists for a standard control, such as button, input, label, badge, dropdown menu, table, dialog, sheet, tabs, select, checkbox, switch, tooltip, or toast, implement or reuse that primitive from `components/ui` before creating a custom control. Do not force shadcn for page layout, route-driven links, domain-specific empty states, app shell composition, or other cases where a semantic HTML element is clearer. Custom components should compose shadcn primitives and project tokens, not bypass them.
+
+**Toast Standard:** Use `sonner` for non-blocking feedback such as create, update, deactivate, reactivate, and recoverable errors. Mount the Toaster once at the app layout through `components/ui/sonner.tsx`. Toasts confirm completed actions; they do not replace inline validation, permission states, destructive confirmations, or visible empty/error states. Keep toast text in the i18n dictionary.
+
 Every interactive component must define default, hover, focus, active, disabled, loading, and error states.
 
 ### Buttons
 
 - **Shape:** 8px default radius. Do not use pill buttons except for chips, badges, and segmented controls.
-- **Primary:** `primary` background, dark text, medium/strong weight, icon support, 32-36px minimum height for dense tables and 40px for full forms.
+- **Primary:** Use the approved Court Green 2B treatment: `oklch(45% 0.12 158)` background, `oklch(64% 0.12 158)` border, foreground text, and hover at `oklch(52% 0.135 158)` with `oklch(75% 0.14 158)` border. This keeps primary actions visibly green without introducing black button text into the dark product UI. Use medium/strong weight, icon support, 32-36px minimum height for dense tables and 40px for full forms.
 - **Secondary:** `surface-raised` background, foreground text, hairline border when needed.
 - **Ghost:** Transparent background for row actions, topbar actions, icon buttons, and low-priority commands. Hover uses `surface-raised`.
 - **Destructive:** `destructive` for destructive confirmation actions only. Destructive actions must include explicit consequence copy.
@@ -283,12 +290,13 @@ Every interactive component must define default, hover, focus, active, disabled,
 - **Global Search:** The authenticated topbar centers the global search field on desktop. It searches across students, guardians, class groups, receipts, charges, attendance sessions, events, and report contexts as those modules exist. Keep the field visually stable, 360-520px wide on desktop, with keyboard shortcut affordance when implemented.
 - **Local Search:** Module-level search remains inside the filter toolbar or table toolbar. It searches the current dataset only, such as `Nombre, DNI o codigo` inside Estudiantes.
 - **Filters:** Common filters remain visible above tables. Advanced filters can collapse into a panel, sheet, or popover.
-- **Validation:** Errors appear under the field. Long forms also include a summary near the top.
+- **Validation:** Errors appear under the field. Use Zod with React Hook Form for convenient field and cross-field validation, such as age ranges, code formats, slugs, URLs, and conditional required pairs. Long forms also include a summary near the top. Frontend validation improves feedback but does not replace backend validation.
 - **Required Fields:** Required indicators must not rely only on color. Explain conditional requirements such as adult student contact fields or primary guardian rules for minors.
 
 ### Tables
 
 - **Default Pattern:** Tables are the default for operational lists: students, guardians, enrollments, charges, receipts, attendance records, class groups, venues, courts, invitations, and reports.
+- **Implementation Standard:** Data tables use TanStack Table for table state and shadcn Table for rendering. Feature column definitions live outside route files in `features/*/components/*-columns.tsx` files. Simple CRUD tables may use a lighter configuration, but they should still use the shared table primitives so future pagination, sorting, filtering, and selection can be added without changing visual vocabulary.
 - **Structure:** Toolbar, filters, table, pagination, and selected-row actions should keep stable positions.
 - **Rows:** Row hover uses `surface-raised`. Selection uses a subtle primary tint plus checkbox or explicit selection state.
 - **Actions:** Each row has a consistent action area. Primary row action is visible when obvious; secondary actions use a dropdown menu.
@@ -305,6 +313,10 @@ Every interactive component must define default, hover, focus, active, disabled,
 - **Save Behavior:** Ordinary edits should be fast. Sensitive changes require confirmation and may require a reason.
 - **Sticky Actions:** Long desktop forms may use a sticky footer or side summary for save/cancel and validation state. Mobile forms keep primary action visible without covering fields.
 - **Review Blocks:** Payment, scholarship, attendance exception, and permission flows should include a review block before irreversible submission.
+
+**Operational Form Consistency Rule:** CRUD modules should expose a single visible create action for the current section, not duplicate create controls in the page header and section header. Create forms, inline edit rows, and table columns use the same field order so users do not remap the entity while switching modes. Immutable values such as codes, slugs, or parent records should appear as disabled inputs when editing if the create form used an input for them. Technical ordering fields should stay out of ordinary CRUD forms; assign their next value automatically and expose reordering only through a dedicated workflow if the product needs it later. Row actions must stay aligned as one compact action group with one save path, one cancel path while editing, and reversible deactivate/reactivate actions kept neutral unless a confirmation step explains a destructive consequence. Save buttons for ordinary edits should remain disabled until a field has changed. Successful inline create/edit saves should close the form and return to the list state, with a toast confirming the action, unless the product flow explicitly supports continuous entry. Filters and tables should be visually separated with a divider or surface change so the filter toolbar does not read as part of the first data row.
+
+**Redundancy And Verification Rule:** Product screens should not repeat the same action, context, label, helper copy, or surface treatment unless the repetition prevents a meaningful mistake. Avoid duplicated create buttons, nested bordered blocks, table wrappers inside section wrappers, button labels reused as section titles, and empty states that invite creation when the user is only viewing a filtered subset. Before a UI change is considered complete, verify the affected states: populated list, true empty, filtered empty, create, edit, cancel, disabled save, deactivate/reactivate, permission denial, and Spanish/English labels.
 
 ### Navigation And Shell
 

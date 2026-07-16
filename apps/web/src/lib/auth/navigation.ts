@@ -24,7 +24,7 @@ export const roleNavigation: NavigationItem[] = [
   { key: "dashboard", href: "/", roles: ["admin", "staff", "coach"] },
   { key: "students", href: "/students", roles: ["admin", "staff", "coach"] },
   { key: "guardians", href: "/guardians", roles: ["admin", "staff"] },
-  { key: "venues", href: "/venues", roles: ["admin", "staff"] },
+  { key: "venues", href: "/structure", roles: ["admin", "staff"] },
   { key: "classes", href: "/classes", roles: ["admin", "staff", "coach"] },
   { key: "enrollments", href: "/enrollments", roles: ["admin", "staff"] },
   { key: "billing", href: "/billing", roles: ["admin", "staff"] },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
 import { getConfiguredLocale, getMessages } from "@/lib/i18n/messages";
 
 const locale = getConfiguredLocale();
@@ -15,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

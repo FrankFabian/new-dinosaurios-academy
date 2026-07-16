@@ -6,7 +6,8 @@
     "celery": "..\\..\\.venv\\Scripts\\python.exe -m celery -A config worker --loglevel=info",
     "dev": "..\\..\\.venv\\Scripts\\python.exe manage.py runserver 0.0.0.0:8000",
     "lint": "..\\..\\.venv\\Scripts\\python.exe manage.py check",
-    "test": "..\\..\\.venv\\Scripts\\python.exe manage.py test health config accounts",
+    "seed:academics": "..\\..\\.venv\\Scripts\\python.exe manage.py seed_academic_structure",
+    "test": "..\\..\\.venv\\Scripts\\python.exe manage.py test health config accounts academics",
     "typecheck": "..\\..\\.venv\\Scripts\\python.exe manage.py check"
   }
 }
