@@ -94,6 +94,10 @@ Frontend stack:
 - Next.js
 - Tailwind CSS
 - shadcn/ui
+- TanStack Table for data-table state
+- React Query for client-side server state
+- React Hook Form and Zod for forms
+- sonner for non-blocking toast feedback
 - responsive UI
 - dark mode by default
 - i18n with Spanish and English
@@ -112,6 +116,7 @@ Frontend code is organized by domain modules:
 - `features/reports`
 - `features/settings`
 - `components/ui`: shadcn base components
+- `components/organisms`: shared composed product components such as data tables
 - `components/layout`: app shell, sidebar, topbar, navigation
 - `lib/api`: API client and request helpers
 - `lib/i18n`: localization setup and translation resources
@@ -120,6 +125,21 @@ Frontend code is organized by domain modules:
 The frontend consumes Django through `/api/...` under the same production site.
 
 User-facing text must come from translation files.
+
+Frontend implementation standards:
+
+- Route files under `app/**/page.tsx` handle routing, authentication, authorization, data loading, and composition only. Move tables, forms, row actions, and feature UI into `features/*`.
+- Use shadcn/ui primitives from `components/ui` when a matching primitive exists. Custom product components should compose these primitives instead of reimplementing standard controls.
+- Use TanStack Table plus shadcn Table for data tables. Put feature-specific column definitions in `features/*/components/*-columns.tsx`.
+- Use React Hook Form with Zod for forms. Keep field order consistent across create forms, edit forms, and table presentation unless the domain model requires a different order. Put convenient field and cross-field validations in Zod so users see inline errors before submit, while keeping backend validation as the source of truth.
+- Keep technical ordering fields such as `sort_order` out of ordinary CRUD forms. Assign the next order automatically on create and reserve manual reordering for a dedicated future workflow.
+- Inline create/edit forms should clear their route state after a successful mutation so the user returns to the refreshed list view. Use continuous-entry forms only when the workflow explicitly calls for repeated creation.
+- Use React Query for client-side server state, mutations, cache invalidation, and refresh flows.
+- Use `sonner` through `components/ui/sonner.tsx` for non-blocking create/update/deactivate/reactivate feedback. Mount the Toaster once in the root layout and keep toast strings in `lib/i18n`.
+- Keep filters, table content, empty states, and forms as distinct UI regions. Avoid nested cards and redundant bordered wrappers.
+- Do not duplicate primary create actions in both page and section headers.
+- Keep all user-facing strings in `lib/i18n` resources and provide Spanish and English equivalents.
+- A frontend change is not complete until the relevant automated tests pass and the affected observable flows have been checked: default list, true empty, filtered empty, create, edit, cancel, disabled save, deactivate/reactivate, permission denial, and translated labels. Do not ship non-working filters, misleading empty states, duplicated actions, or reused labels that describe the wrong UI state.
 
 ## Production Routing
 
